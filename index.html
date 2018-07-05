@@ -1,0 +1,104 @@
+<html charset="UTF-8">
+    <meta charset="UTF-8" />
+        
+    <head>
+        <script src="libs/three.js"></script>
+        <script src="libs/OrbitControls.js"></script>
+        <script src="libs/keyboard.js"></script>
+    
+        <link rel="stylesheet" href="css/Style.css">
+    </head>
+    
+    <body style="margin: 0">
+        <script type="text/x-glsl" id="vertexShader">
+            varying vec2 vUv;
+              
+            void main()
+            {
+                vUv = uv;
+
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        </script>
+
+        <script type="text/x-glsl" id="fragmentShader1">
+            uniform float time;
+            varying vec2 vUv;
+
+            void main()
+            {
+                float red = vUv.x * sin(time/5.0);
+                float green = vUv.y * cos(time/5.0);
+                float blue = (vUv.x + vUv.y)/3.0;
+
+                gl_FragColor = vec4(red, green, blue, 1.0);
+            }
+        </script>
+
+        <script type="text/x-glsl" id="fragmentShader2">
+            uniform float time;
+            varying vec2 vUv;
+
+            void main()
+            {
+                float red = sin(vUv.x * sin(time/10.0) + cos(vUv.x));
+                float green = sin(vUv.y * sin(time/3.0) + sin(vUv.y));
+                float blue = sin(sin(time/20.0) * (sin(vUv.x) + cos(vUv.y))/2.0);
+
+                gl_FragColor = vec4(red, green, blue, 1.0);
+            }
+        </script>
+
+        <script type="text/x-glsl" id="fragmentShader3">
+            varying vec2 vUv;
+            uniform float time;
+
+            void main()
+            {
+                vec2 st = vUv;
+                vec3 color = vec3(0.0);
+
+                st = st * 9.0 * (cos(time/10.0));
+                st = fract(st);
+
+                color = vec3(st, (vUv.x + vUv.y)/4.0);
+
+                gl_FragColor = vec4(color, 1.0);
+            }
+        </script>
+
+        <script type="text/x-glsl" id="fragmentShader4">
+            varying vec2 vUv;
+            uniform float time;
+
+            void main()
+            {
+                vec2 st = vUv;
+                vec3 color = vec3(0.0);
+
+                st.x = st.x * 12.0 * cos(time/10.0);
+                st.y = st.y * cos(time/30.0);
+
+                st.x = fract(st.x);
+                st.y = fract(st.y);
+
+                color = vec3(st, 10.0);
+
+                gl_FragColor = vec4(color, 1.0);
+
+            }
+        </script>
+
+        <script src="js/shaders.js"></script>
+
+    
+        <title> Shader Fun </title>
+
+        <div id="transbox">
+            <div> <strong> Shaders Demo </strong> </br></br></div>
+            <div> To toggle the music, press M </br></br></div>
+            <div> Demo made by: Neil Tobin Napase </div>
+        </div>
+    </body>
+    
+    </html>
